@@ -62,7 +62,7 @@ services:
       CATALOG_S3_PATH__STYLE__ACCESS: "true"
     restart: unless-stopped
   rustfs:
-    image: rustfs/rustfs:latest
+    image: rustfs/rustfs:1.0.1
     container_name: rustfs
     depends_on:
       volume-permission-helper:
@@ -84,14 +84,14 @@ services:
       - rustfs_logs:/logs
     restart: unless-stopped
   volume-permission-helper:
-    image: alpine
+    image: alpine:3.24
     volumes:
       - rustfs_data:/data/rustfs0
       - rustfs_logs:/logs
     command: chown -R 10001:10001 /data/rustfs0 /logs
     restart: "no"
   aws-init:
-    image: amazon/aws-cli:latest
+    image: amazon/aws-cli:2.37.12
     container_name: aws-init
     depends_on:
       - rustfs
